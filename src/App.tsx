@@ -1,35 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Tabs, TabsList, TabsTrigger, TabsContent } from './components/ui/tabs';
+import { Separator } from './components/ui/separator';
+import EmployeesList from './components/EmployeesList';
+import ContractsPanel from './components/ContractsPanel';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+    return (
+        <div className="max-w-4xl mx-auto p-6">
+            <header className="mb-6">
+                <h1 className="text-3xl font-semibold tracking-tight">
+                    HR Portal
+                </h1>
+                <p className="text-sm text-brand-muted mt-1">
+                    Manage employees and contracts
+                </p>
+            </header>
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+            <Tabs defaultValue="employees" className="w-full">
+                <TabsList className="grid grid-cols-2 w-full">
+                    <TabsTrigger value="employees">Employees</TabsTrigger>
+                    <TabsTrigger value="contracts">Contracts</TabsTrigger>
+                </TabsList>
+
+                <Separator className="my-4" />
+
+                <TabsContent value="employees">
+                    <EmployeesList />
+                </TabsContent>
+
+                <TabsContent value="contracts">
+                    <ContractsPanel />
+                </TabsContent>
+            </Tabs>
+        </div>
+    );
 }
-
-export default App

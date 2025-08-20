@@ -4,6 +4,7 @@ import type { Employee } from '../types';
 import { toast } from 'sonner';
 import { Button } from '../components/ui/button';
 import EmployeeForm from './EmployeeForm';
+// import AddEmployeeForm from './AddEmployeeForm';
 import {
     Dialog,
     DialogContent,
@@ -93,7 +94,7 @@ export default function EmployeesList() {
                 </p>
                 <Dialog open={openForm} onOpenChange={setOpenForm}>
                     <DialogTrigger asChild>
-                        <Button className="bg-brand text-white hover:opacity-90">
+                        <Button className="bg-primary text-white hover:opacity-90">
                             Add employee
                         </Button>
                     </DialogTrigger>

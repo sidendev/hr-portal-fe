@@ -85,7 +85,7 @@ export default function ContractsPanel() {
                 <p className="text-sm text-brand-muted">Manage contracts.</p>
                 <Dialog open={open} onOpenChange={setOpen}>
                     <DialogTrigger asChild>
-                        <Button className="bg-brand text-white hover:opacity-90">
+                        <Button className="bg-primary text-white hover:opacity-90">
                             Add contract
                         </Button>
                     </DialogTrigger>

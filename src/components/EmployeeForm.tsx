@@ -87,7 +87,7 @@ export default function EmployeeForm({
                 <Button
                     type="submit"
                     disabled={submitting}
-                    className="bg-brand text-white hover:opacity-90"
+                    className="bg-primary text-white hover:opacity-90"
                 >
                     Save
                 </Button>

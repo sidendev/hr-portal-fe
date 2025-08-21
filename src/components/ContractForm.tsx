@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { contractSchema, type ContractFormValues } from '../schemas';
 import type { Employee } from '../types';
@@ -34,6 +34,7 @@ export default function ContractForm({
         handleSubmit,
         setValue,
         watch,
+        control,
         formState: { errors },
     } = useForm<ContractFormValues>({
         resolver: zodResolver(contractSchema),
@@ -44,18 +45,53 @@ export default function ContractForm({
             endDate: initial?.endDate ?? null,
             fullTime: initial?.fullTime ?? true,
             hoursPerWeek:
-                initial?.hoursPerWeek ?? (initial?.fullTime ? 40 : null),
+                initial?.hoursPerWeek ?? (initial?.fullTime ? 40 : 20),
         },
     });
 
+    // CHECKING WHAT IS SET IN FORM
+    console.log('Initial contract values:', {
+        employeeId: initial?.employeeId ?? (employees[0]?.id || 0),
+        contractType: initial?.contractType ?? 'Permanent',
+        startDate: initial?.startDate ?? '',
+        endDate: initial?.endDate ?? null,
+        fullTime: initial?.fullTime ?? true,
+        hoursPerWeek: initial?.hoursPerWeek ?? (initial?.fullTime ? 40 : 20),
+    });
+
     const fullTime = watch('fullTime');
+    const contractType = watch('contractType');
 
     useEffect(() => {
-        if (fullTime) setValue('hoursPerWeek', 40);
-    }, [fullTime, setValue]);
+        if (contractType === 'Permanent') {
+            setValue('endDate', null);
+        }
+    }, [contractType, setValue]);
+
+    useEffect(() => {
+        if (fullTime && !initial?.hoursPerWeek) {
+            setValue('hoursPerWeek', 40);
+        } else if (!fullTime && !initial?.hoursPerWeek) {
+            setValue('hoursPerWeek', 20);
+        }
+    }, [fullTime, setValue, initial?.hoursPerWeek]);
+
+    const onFormSubmit = (values: ContractFormValues) => {
+        const formattedValues = {
+            ...values,
+            employeeId: Number(values.employeeId),
+            hoursPerWeek:
+                values.hoursPerWeek !== null
+                    ? Number(values.hoursPerWeek)
+                    : null,
+        };
+
+        console.log('Form values before submission:', formattedValues);
+        onSubmit(formattedValues);
+    };
 
     return (
-        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+        <form className="space-y-4" onSubmit={handleSubmit(onFormSubmit)}>
             <div>
                 <Label>Employee</Label>
                 {employees.length > 0 ? (
@@ -91,10 +127,13 @@ export default function ContractForm({
             <div className="grid grid-cols-2 gap-4">
                 <div>
                     <Label>Contract type</Label>
-                    <Input
+                    <select
+                        className="w-full border rounded-md h-10 px-3"
                         {...register('contractType')}
-                        placeholder="Permanent / Fixed-term / Contractor"
-                    />
+                    >
+                        <option value="Permanent">Permanent</option>
+                        <option value="Contract">Contract</option>
+                    </select>
                     {errors.contractType && (
                         <p className="text-xs text-red-600">
                             {errors.contractType.message}
@@ -102,14 +141,23 @@ export default function ContractForm({
                     )}
                 </div>
                 <div>
-                    <Label>Full-time</Label>
-                    <select
-                        className="border rounded-md h-10 px-3"
-                        {...register('fullTime', { valueAsNumber: false })}
-                    >
-                        <option value="true">Full-time</option>
-                        <option value="false">Part-time</option>
-                    </select>
+                    <Label>Full or Part-time</Label>
+                    <Controller
+                        name="fullTime"
+                        control={control}
+                        render={({ field }) => (
+                            <select
+                                className="border rounded-md h-10 px-3"
+                                value={field.value ? 'true' : 'false'}
+                                onChange={(e) => {
+                                    field.onChange(e.target.value === 'true');
+                                }}
+                            >
+                                <option value="true">Full-time</option>
+                                <option value="false">Part-time</option>
+                            </select>
+                        )}
+                    />
                 </div>
             </div>
 
@@ -125,7 +173,21 @@ export default function ContractForm({
                 </div>
                 <div>
                     <Label>End date</Label>
-                    <Input type="date" {...register('endDate')} />
+                    <Input
+                        type="date"
+                        {...register('endDate')}
+                        disabled={contractType === 'Permanent'}
+                        className={
+                            contractType === 'Permanent'
+                                ? 'bg-gray-100 cursor-not-allowed'
+                                : ''
+                        }
+                    />
+                    {contractType === 'Permanent' && (
+                        <p className="text-xs text-muted-foreground">
+                            Not applicable for permanent contracts
+                        </p>
+                    )}
                     {errors.endDate && (
                         <p className="text-xs text-red-600">
                             {errors.endDate.message}
@@ -134,21 +196,19 @@ export default function ContractForm({
                 </div>
             </div>
 
-            {!fullTime && (
-                <div>
-                    <Label>Hours per week</Label>
-                    <Input
-                        type="number"
-                        min={0}
-                        {...register('hoursPerWeek', { valueAsNumber: true })}
-                    />
-                    {errors.hoursPerWeek && (
-                        <p className="text-xs text-red-600">
-                            {errors.hoursPerWeek.message}
-                        </p>
-                    )}
-                </div>
-            )}
+            <div>
+                <Label>Hours per week</Label>
+                <Input
+                    type="number"
+                    min={0}
+                    {...register('hoursPerWeek', { valueAsNumber: true })}
+                />
+                {errors.hoursPerWeek && (
+                    <p className="text-xs text-red-600">
+                        {errors.hoursPerWeek.message}
+                    </p>
+                )}
+            </div>
 
             <div className="flex justify-end gap-2 pt-2">
                 <Button type="button" variant="ghost" onClick={onCancel}>

@@ -101,12 +101,17 @@ export default function ContractForm({
                         )}
                         onValueChange={(v) => setValue('employeeId', Number(v))}
                     >
-                        <SelectTrigger>
+                        <SelectTrigger data-test="employee-select-trigger">
                             <SelectValue />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent data-test="employee-select-content">
                             {employees.map((e) => (
-                                <SelectItem key={e.id} value={String(e.id)}>
+                                <SelectItem
+                                    key={e.id}
+                                    value={String(e.id)}
+                                    data-test="employee-option"
+                                    data-value={`${e.firstName} ${e.lastName}`}
+                                >
                                     {e.firstName} {e.lastName}
                                 </SelectItem>
                             ))}
@@ -130,6 +135,7 @@ export default function ContractForm({
                     <select
                         className="w-full border rounded-md h-10 px-3"
                         {...register('contractType')}
+                        data-test="contract-type"
                     >
                         <option value="Permanent">Permanent</option>
                         <option value="Contract">Contract</option>
@@ -152,6 +158,7 @@ export default function ContractForm({
                                 onChange={(e) => {
                                     field.onChange(e.target.value === 'true');
                                 }}
+                                data-test="full-time-select"
                             >
                                 <option value="true">Full-time</option>
                                 <option value="false">Part-time</option>
@@ -164,7 +171,11 @@ export default function ContractForm({
             <div className="grid grid-cols-2 gap-4">
                 <div>
                     <Label>Start date</Label>
-                    <Input type="date" {...register('startDate')} />
+                    <Input
+                        type="date"
+                        {...register('startDate')}
+                        data-test="start-date"
+                    />
                     {errors.startDate && (
                         <p className="text-xs text-red-600">
                             {errors.startDate.message}
@@ -182,6 +193,7 @@ export default function ContractForm({
                                 ? 'bg-gray-100 cursor-not-allowed'
                                 : ''
                         }
+                        data-test="end-date"
                     />
                     {contractType === 'Permanent' && (
                         <p className="text-xs text-muted-foreground">
@@ -202,6 +214,7 @@ export default function ContractForm({
                     type="number"
                     min={0}
                     {...register('hoursPerWeek', { valueAsNumber: true })}
+                    data-test="hours-per-week"
                 />
                 {errors.hoursPerWeek && (
                     <p className="text-xs text-red-600">
@@ -218,6 +231,7 @@ export default function ContractForm({
                     type="submit"
                     disabled={submitting}
                     className="bg-primary text-white hover:opacity-90"
+                    data-test="save-contract"
                 >
                     Save
                 </Button>

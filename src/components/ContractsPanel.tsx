@@ -85,11 +85,14 @@ export default function ContractsPanel() {
                 <p className="text-sm text-brand-muted">Manage contracts.</p>
                 <Dialog open={open} onOpenChange={setOpen}>
                     <DialogTrigger asChild>
-                        <Button className="bg-primary text-white hover:opacity-90">
+                        <Button
+                            className="bg-primary text-white hover:opacity-90"
+                            data-test="add-contract"
+                        >
                             Add contract
                         </Button>
                     </DialogTrigger>
-                    <DialogContent>
+                    <DialogContent data-test="contract-dialog">
                         <DialogHeader>
                             <DialogTitle>
                                 {editing ? 'Edit contract' : 'Add contract'}
@@ -118,7 +121,7 @@ export default function ContractsPanel() {
                 </Dialog>
             </div>
 
-            <ul className="divide-y">
+            <ul className="divide-y" data-test="contracts-list">
                 {contractsArray.length === 0 ? (
                     <li className="py-8 text-center text-sm text-brand-muted">
                         No contracts found. Add your first contract.
@@ -128,15 +131,28 @@ export default function ContractsPanel() {
                         <li
                             key={c.id}
                             className="py-4 flex items-center justify-between"
+                            data-test="contract-item"
                         >
                             <div>
-                                <div className="font-medium">
+                                <div
+                                    className="font-medium"
+                                    data-test="contract-employee-name"
+                                >
                                     {employeeName(c.employeeId)}
                                 </div>
-                                <div className="text-sm text-brand-muted">
+                                <div
+                                    className="text-sm text-brand-muted"
+                                    data-test="contract-type"
+                                >
                                     {c.contractType} •{' '}
                                     {c.fullTime ? 'Full-time' : 'Part-time'} •{' '}
                                     {c.startDate} → {c.endDate ?? 'ongoing'}
+                                </div>
+                                <div
+                                    className="text-xs text-brand-muted"
+                                    data-test="contract-hours"
+                                >
+                                    {c.hoursPerWeek} hours/week
                                 </div>
                             </div>
                             <div className="flex gap-3">

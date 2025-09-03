@@ -94,11 +94,11 @@ export default function EmployeesList() {
                 </p>
                 <Dialog open={openForm} onOpenChange={setOpenForm}>
                     <DialogTrigger asChild>
-                        <Button className="bg-primary text-white hover:opacity-90">
+                        <Button className="bg-primary text-white hover:opacity-90" data-test="add-employee">
                             Add employee
                         </Button>
                     </DialogTrigger>
-                    <DialogContent>
+                    <DialogContent data-test="employee-dialog">
                         <DialogHeader>
                             <DialogTitle>
                                 {editing ? 'Edit employee' : 'Add employee'}
@@ -126,7 +126,7 @@ export default function EmployeesList() {
                 </Dialog>
             </div>
 
-            <ul className="divide-y">
+            <ul className="divide-y" data-test="employees-list">
                 {isLoading ? (
                     <li className="py-8 text-center text-sm text-brand-muted">
                         Loading…
@@ -144,9 +144,10 @@ export default function EmployeesList() {
                         <li
                             key={e.id}
                             className="py-4 flex items-center justify-between"
+                            data-test="employee-item"
                         >
                             <div>
-                                <div className="font-medium">
+                                <div className="font-medium" data-test="employee-name">
                                     {e.firstName} {e.lastName}
                                 </div>
                                 <div className="text-sm text-brand-muted">

@@ -38,7 +38,7 @@ export default function EmployeeForm({
             <div className="grid grid-cols-2 gap-4">
                 <div>
                     <Label>First name</Label>
-                    <Input {...register('firstName')} />
+                    <Input {...register('firstName')} data-test="firstName" />
                     {errors.firstName && (
                         <p className="text-xs text-red-600">
                             {errors.firstName.message}
@@ -47,7 +47,7 @@ export default function EmployeeForm({
                 </div>
                 <div>
                     <Label>Last name</Label>
-                    <Input {...register('lastName')} />
+                    <Input {...register('lastName')} data-test="lastName" />
                     {errors.lastName && (
                         <p className="text-xs text-red-600">
                             {errors.lastName.message}
@@ -58,7 +58,11 @@ export default function EmployeeForm({
             <div className="grid grid-cols-2 gap-4">
                 <div>
                     <Label>Email</Label>
-                    <Input type="email" {...register('email')} />
+                    <Input
+                        type="email"
+                        {...register('email')}
+                        data-test="email"
+                    />
                     {errors.email && (
                         <p className="text-xs text-red-600">
                             {errors.email.message}
@@ -67,7 +71,10 @@ export default function EmployeeForm({
                 </div>
                 <div>
                     <Label>Mobile number</Label>
-                    <Input {...register('mobileNumber')} />
+                    <Input
+                        {...register('mobileNumber')}
+                        data-test="mobileNumber"
+                    />
                     {errors.mobileNumber && (
                         <p className="text-xs text-red-600">
                             {errors.mobileNumber.message}
@@ -77,7 +84,7 @@ export default function EmployeeForm({
             </div>
             <div>
                 <Label>Address</Label>
-                <Input {...register('address')} />
+                <Input {...register('address')} data-test="address" />
             </div>
 
             <div className="flex justify-end gap-2 pt-2">
@@ -88,6 +95,7 @@ export default function EmployeeForm({
                     type="submit"
                     disabled={submitting}
                     className="bg-primary text-white hover:opacity-90"
+                    data-test="save-employee"
                 >
                     Save
                 </Button>

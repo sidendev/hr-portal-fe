@@ -142,7 +142,7 @@ export default function ContractsPanel() {
                                 </div>
                                 <div
                                     className="text-sm text-brand-muted"
-                                    data-test="contract-type"
+                                    data-test="contract-type-text"
                                 >
                                     {c.contractType} •{' '}
                                     {c.fullTime ? 'Full-time' : 'Part-time'} •{' '}

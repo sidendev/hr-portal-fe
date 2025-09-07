@@ -171,6 +171,7 @@ export default function ContractsPanel() {
                                     onClick={() =>
                                         c.id && deleteMut.mutate(c.id)
                                     }
+                                    data-test="contract-remove"
                                 >
                                     Remove
                                 </Button>

@@ -94,7 +94,10 @@ export default function EmployeesList() {
                 </p>
                 <Dialog open={openForm} onOpenChange={setOpenForm}>
                     <DialogTrigger asChild>
-                        <Button className="bg-primary text-white hover:opacity-90" data-test="add-employee">
+                        <Button
+                            className="bg-primary text-white hover:opacity-90"
+                            data-test="add-employee"
+                        >
                             Add employee
                         </Button>
                     </DialogTrigger>
@@ -147,7 +150,10 @@ export default function EmployeesList() {
                             data-test="employee-item"
                         >
                             <div>
-                                <div className="font-medium" data-test="employee-name">
+                                <div
+                                    className="font-medium"
+                                    data-test="employee-name"
+                                >
                                     {e.firstName} {e.lastName}
                                 </div>
                                 <div className="text-sm text-brand-muted">
@@ -173,6 +179,7 @@ export default function EmployeesList() {
                                     variant="ghost"
                                     className="text-red-600"
                                     onClick={() => setConfirmId(e.id)}
+                                    data-test="employee-remove"
                                 >
                                     Remove
                                 </Button>

@@ -162,6 +162,7 @@ export default function ContractsPanel() {
                                         setEditing(c);
                                         setOpen(true);
                                     }}
+                                    data-test="contract-edit"
                                 >
                                     Edit
                                 </Button>

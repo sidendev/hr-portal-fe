@@ -172,6 +172,7 @@ export default function EmployeesList() {
                                         setEditing(e);
                                         setOpenForm(true);
                                     }}
+                                    data-test="employee-edit-details"
                                 >
                                     Edit
                                 </Button>

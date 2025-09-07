@@ -38,7 +38,10 @@ export default function AddEmployeeForm({
                     <Label>First name</Label>
                     <Input {...register('firstName')} data-test="firstName" />
                     {errors.firstName && (
-                        <p className="text-xs text-red-600">
+                        <p
+                            className="text-xs text-red-600"
+                            data-test="error-firstName"
+                        >
                             {errors.firstName.message}
                         </p>
                     )}
@@ -47,7 +50,10 @@ export default function AddEmployeeForm({
                     <Label>Last name</Label>
                     <Input {...register('lastName')} data-test="lastName" />
                     {errors.lastName && (
-                        <p className="text-xs text-red-600">
+                        <p
+                            className="text-xs text-red-600"
+                            data-test="error-lastName"
+                        >
                             {errors.lastName.message}
                         </p>
                     )}
@@ -63,7 +69,10 @@ export default function AddEmployeeForm({
                         data-test="email"
                     />
                     {errors.email && (
-                        <p className="text-xs text-red-600">
+                        <p
+                            className="text-xs text-red-600"
+                            data-test="error-email"
+                        >
                             {errors.email.message}
                         </p>
                     )}
@@ -75,7 +84,10 @@ export default function AddEmployeeForm({
                         data-test="mobileNumber"
                     />
                     {errors.mobileNumber && (
-                        <p className="text-xs text-red-600">
+                        <p
+                            className="text-xs text-red-600"
+                            data-test="error-mobileNumber"
+                        >
                             {errors.mobileNumber.message}
                         </p>
                     )}
@@ -95,6 +107,7 @@ export default function AddEmployeeForm({
                     type="submit"
                     disabled={submitting}
                     className="bg-primary text-primary-foreground hover:bg-primary/90"
+                    data-test="save-employee"
                 >
                     Save
                 </Button>

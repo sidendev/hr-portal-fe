@@ -4,14 +4,17 @@ import { employeeSchema, type EmployeeFormValues } from '../schemas';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
+import type { Employee } from '../types';
 
 type Props = {
+    employee: Employee;
     onSubmit: (values: EmployeeFormValues) => void;
     onCancel: () => void;
     submitting?: boolean;
 };
 
-export default function AddEmployeeForm({
+export default function EditEmployeeForm({
+    employee,
     onSubmit,
     onCancel,
     submitting,
@@ -23,11 +26,10 @@ export default function AddEmployeeForm({
     } = useForm<EmployeeFormValues>({
         resolver: zodResolver(employeeSchema),
         defaultValues: {
-            firstName: '',
-            lastName: '',
-            email: '',
-            mobileNumber: '',
-            address: '',
+            firstName: employee.firstName,
+            lastName: employee.lastName,
+            mobileNumber: employee.mobileNumber,
+            address: employee.address || '',
         },
     });
 
@@ -60,38 +62,26 @@ export default function AddEmployeeForm({
                 </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-                <div>
-                    <Label>Email</Label>
-                    <Input
-                        type="email"
-                        {...register('email')}
-                        data-test="email"
-                    />
-                    {errors.email && (
-                        <p
-                            className="text-xs text-red-600"
-                            data-test="error-email"
-                        >
-                            {errors.email.message}
-                        </p>
-                    )}
-                </div>
-                <div>
-                    <Label>Mobile number</Label>
-                    <Input
-                        {...register('mobileNumber')}
-                        data-test="mobileNumber"
-                    />
-                    {errors.mobileNumber && (
-                        <p
-                            className="text-xs text-red-600"
-                            data-test="error-mobileNumber"
-                        >
-                            {errors.mobileNumber.message}
-                        </p>
-                    )}
-                </div>
+            <div className="bg-primary/5 border border-primary/20 rounded-lg p-3">
+                <p className="text-sm text-primary font-medium">
+                    Email Address
+                </p>
+                <p className="text-xs text-primary/80 mt-1">
+                    {employee.email || 'No email address on file'}
+                </p>
+            </div>
+
+            <div>
+                <Label>Mobile number</Label>
+                <Input {...register('mobileNumber')} data-test="mobileNumber" />
+                {errors.mobileNumber && (
+                    <p
+                        className="text-xs text-red-600"
+                        data-test="error-mobileNumber"
+                    >
+                        {errors.mobileNumber.message}
+                    </p>
+                )}
             </div>
 
             <div>

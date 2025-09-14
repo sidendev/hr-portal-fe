@@ -7,7 +7,10 @@ export default function App() {
     return (
         <div className="max-w-4xl mx-auto p-6">
             <header className="mb-6">
-                <h1 className="text-3xl font-semibold tracking-tight" data-test="app-title">
+                <h1
+                    className="text-3xl font-bold tracking-tight"
+                    data-test="app-title"
+                >
                     HR Portal
                 </h1>
                 <p className="text-sm text-brand-muted mt-1">
@@ -17,8 +20,12 @@ export default function App() {
 
             <Tabs defaultValue="employees" className="w-full">
                 <TabsList className="grid grid-cols-2 w-full">
-                    <TabsTrigger value="employees" data-test="tab-employees">Employees</TabsTrigger>
-                    <TabsTrigger value="contracts" data-test="tab-contracts">Contracts</TabsTrigger>
+                    <TabsTrigger value="employees" data-test="tab-employees">
+                        Employees
+                    </TabsTrigger>
+                    <TabsTrigger value="contracts" data-test="tab-contracts">
+                        Contracts
+                    </TabsTrigger>
                 </TabsList>
 
                 <Separator className="my-4" />

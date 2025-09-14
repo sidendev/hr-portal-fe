@@ -16,7 +16,6 @@ import { useEffect } from 'react';
 
 type Props = {
     employees: Employee[];
-    initial?: Partial<ContractFormValues>;
     onSubmit: (values: ContractFormValues) => void;
     onCancel: () => void;
     submitting?: boolean;
@@ -24,7 +23,6 @@ type Props = {
 
 export default function ContractForm({
     employees,
-    initial,
     onSubmit,
     onCancel,
     submitting,
@@ -39,24 +37,13 @@ export default function ContractForm({
     } = useForm<ContractFormValues>({
         resolver: zodResolver(contractSchema),
         defaultValues: {
-            employeeId: initial?.employeeId ?? (employees[0]?.id || 0),
-            contractType: initial?.contractType ?? 'Permanent',
-            startDate: initial?.startDate ?? '',
-            endDate: initial?.endDate ?? null,
-            fullTime: initial?.fullTime ?? true,
-            hoursPerWeek:
-                initial?.hoursPerWeek ?? (initial?.fullTime ? 40 : 20),
+            employeeId: employees[0]?.id || 0,
+            contractType: 'Permanent',
+            startDate: '',
+            endDate: null,
+            fullTime: true,
+            hoursPerWeek: 40,
         },
-    });
-
-    // CHECKING WHAT IS SET IN FORM
-    console.log('Initial contract values:', {
-        employeeId: initial?.employeeId ?? (employees[0]?.id || 0),
-        contractType: initial?.contractType ?? 'Permanent',
-        startDate: initial?.startDate ?? '',
-        endDate: initial?.endDate ?? null,
-        fullTime: initial?.fullTime ?? true,
-        hoursPerWeek: initial?.hoursPerWeek ?? (initial?.fullTime ? 40 : 20),
     });
 
     const fullTime = watch('fullTime');
@@ -69,12 +56,12 @@ export default function ContractForm({
     }, [contractType, setValue]);
 
     useEffect(() => {
-        if (fullTime && !initial?.hoursPerWeek) {
+        if (fullTime) {
             setValue('hoursPerWeek', 40);
-        } else if (!fullTime && !initial?.hoursPerWeek) {
+        } else {
             setValue('hoursPerWeek', 20);
         }
-    }, [fullTime, setValue, initial?.hoursPerWeek]);
+    }, [fullTime, setValue]);
 
     const onFormSubmit = (values: ContractFormValues) => {
         const formattedValues = {
@@ -96,9 +83,7 @@ export default function ContractForm({
                 <Label>Employee</Label>
                 {employees.length > 0 ? (
                     <Select
-                        defaultValue={String(
-                            initial?.employeeId ?? employees[0]?.id
-                        )}
+                        defaultValue={String(employees[0]?.id)}
                         onValueChange={(v) => setValue('employeeId', Number(v))}
                     >
                         <SelectTrigger data-test="employee-select-trigger">

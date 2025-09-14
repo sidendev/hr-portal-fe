@@ -6,14 +6,12 @@ import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 
 type Props = {
-    initial?: Partial<EmployeeFormValues>;
     onSubmit: (values: EmployeeFormValues) => void;
     onCancel: () => void;
     submitting?: boolean;
 };
 
 export default function EmployeeForm({
-    initial,
     onSubmit,
     onCancel,
     submitting,
@@ -25,11 +23,10 @@ export default function EmployeeForm({
     } = useForm<EmployeeFormValues>({
         resolver: zodResolver(employeeSchema),
         defaultValues: {
-            firstName: initial?.firstName ?? '',
-            lastName: initial?.lastName ?? '',
-            email: initial?.email ?? '',
-            mobileNumber: initial?.mobileNumber ?? '',
-            address: initial?.address ?? '',
+            firstName: '',
+            lastName: '',
+            mobileNumber: '',
+            address: '',
         },
     });
 
@@ -61,38 +58,28 @@ export default function EmployeeForm({
                     )}
                 </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
-                <div>
-                    <Label>Email</Label>
-                    <Input
-                        type="email"
-                        {...register('email')}
-                        data-test="email"
-                    />
-                    {errors.email && (
-                        <p
-                            className="text-xs text-red-600"
-                            data-test="error-email"
-                        >
-                            {errors.email.message}
-                        </p>
-                    )}
-                </div>
-                <div>
-                    <Label>Mobile number</Label>
-                    <Input
-                        {...register('mobileNumber')}
-                        data-test="mobileNumber"
-                    />
-                    {errors.mobileNumber && (
-                        <p
-                            className="text-xs text-red-600"
-                            data-test="error-mobileNumber"
-                        >
-                            {errors.mobileNumber.message}
-                        </p>
-                    )}
-                </div>
+
+            <div className="bg-primary/5 border border-primary/20 rounded-lg p-3">
+                <p className="text-sm text-primary font-medium">
+                    Email Address
+                </p>
+                <p className="text-xs text-primary/80 mt-1">
+                    An email address will be automatically generated based on
+                    the employee name
+                </p>
+            </div>
+
+            <div>
+                <Label>Mobile number</Label>
+                <Input {...register('mobileNumber')} data-test="mobileNumber" />
+                {errors.mobileNumber && (
+                    <p
+                        className="text-xs text-red-600"
+                        data-test="error-mobileNumber"
+                    >
+                        {errors.mobileNumber.message}
+                    </p>
+                )}
             </div>
             <div>
                 <Label>Address</Label>

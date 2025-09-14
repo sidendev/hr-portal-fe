@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const employeeSchema = z.object({
     firstName: z.string().min(1, 'First name is required'),
     lastName: z.string().min(1, 'Last name is required'),
-    email: z.string().email('Invalid email'),
+    email: z.string().email('Invalid email').optional(), // email optional since it's auto-generated
     mobileNumber: z.string().min(1, 'Mobile number is required'),
     address: z.string().optional().nullable(),
 });

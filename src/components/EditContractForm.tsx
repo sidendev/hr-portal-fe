@@ -1,34 +1,27 @@
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { contractSchema, type ContractFormValues } from '../schemas';
-import type { Employee } from '../types';
-import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
-import { Label } from '../components/ui/label';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '../components/ui/select';
+import type { Employee, Contract } from '../types';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Label } from './ui/label';
 import { useEffect } from 'react';
 
 type Props = {
+    contract: Contract;
     employees: Employee[];
     onSubmit: (values: ContractFormValues) => void;
     onCancel: () => void;
     submitting?: boolean;
 };
 
-export default function AddContractForm({
+export default function EditContractForm({
+    contract,
     employees,
     onSubmit,
     onCancel,
     submitting,
 }: Props) {
-    const firstEmpId = employees[0]?.id ?? 0;
-
     const {
         register,
         handleSubmit,
@@ -39,12 +32,12 @@ export default function AddContractForm({
     } = useForm<ContractFormValues>({
         resolver: zodResolver(contractSchema),
         defaultValues: {
-            employeeId: firstEmpId,
-            contractType: 'Permanent',
-            startDate: '',
-            endDate: null,
-            fullTime: true,
-            hoursPerWeek: 40,
+            employeeId: contract.employeeId,
+            contractType: contract.contractType,
+            startDate: contract.startDate,
+            endDate: contract.endDate || null,
+            fullTime: contract.fullTime,
+            hoursPerWeek: contract.hoursPerWeek || 40,
         },
     });
 
@@ -88,26 +81,33 @@ export default function AddContractForm({
                         No employees available — create an employee first.
                     </p>
                 ) : (
-                    <Select
-                        defaultValue={String(firstEmpId)}
-                        onValueChange={(v) => setValue('employeeId', Number(v))}
-                    >
-                        <SelectTrigger data-test="employee-select-trigger">
-                            <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent data-test="employee-select-content">
-                            {employees.map((e) => (
-                                <SelectItem
-                                    key={e.id}
-                                    value={String(e.id)}
-                                    data-test="employee-option"
-                                    data-value={`${e.firstName} ${e.lastName}`}
-                                >
-                                    {e.firstName} {e.lastName}
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
+                    <div className="relative">
+                        <Input
+                            value={
+                                employees.find(
+                                    (e) => e.id === contract.employeeId
+                                )
+                                    ? `${
+                                          employees.find(
+                                              (e) =>
+                                                  e.id === contract.employeeId
+                                          )?.firstName
+                                      } ${
+                                          employees.find(
+                                              (e) =>
+                                                  e.id === contract.employeeId
+                                          )?.lastName
+                                      }`
+                                    : `Employee #${contract.employeeId}`
+                            }
+                            disabled
+                            className="bg-muted/50 text-muted-foreground cursor-not-allowed"
+                            data-test="employee-name-readonly"
+                        />
+                        <p className="text-xs text-muted-foreground mt-1">
+                            Employee cannot be changed after contract created
+                        </p>
+                    </div>
                 )}
                 {errors.employeeId && (
                     <p className="text-xs text-red-600">

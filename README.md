@@ -4,7 +4,7 @@ A human resources management system built with React and TypeScript. This is the
 For full details on the project, including backend setup and API documentation, please see the [backend repository](https://github.com/sidendev/hr-portal).
 
 ![HR Portal Screenshot](./public/screenshot-hr-portal.png)
-*HR Portal interface showing employee management with filtering*
+*HR Portal interface with employee management with filtering*
 
 ## Overview
 
@@ -12,12 +12,12 @@ The HR Portal frontend is a single-page application (SPA) that offers employee a
 
 ### Key Features
 
-- **Employee Management**: Add, edit, and delete employee records with comprehensive profile information
+- **Employee Management**: Add, edit, and delete employee records with employee profile information
 - **Contract Administration**: Manage employment contracts and edit contract details
-- **Employee Filtering**: Filter employees by contract type, employment status, expiring contracts and name search
+- **Employee Filtering**: Filter employees by contract type, expiring contracts and name search
 - **Pagination**: Efficient data handling with paginated employee list
 - **Responsive Design**: Responsive interface optimised for desktop and mobile devices
-- **Form Validation**: Robust validation using Zod schemas
+- **Form Validation**: Validation using Zod schemas
 - **Real-time Feedback**: Toast notifications for user actions and system responses
 
 ## Technology Stack
@@ -55,6 +55,7 @@ src/
 ├── lib/                # Utility libraries
 │   ├── api.ts          # API configuration and endpoints
 │   ├── utils.ts        # Helper functions
+│   ├── query.ts        # React Query config
 │   └── errors.ts       # Error handling utilities
 ├── assets/             # Static assets - to be added later
 ├── types.ts            # TypeScript type definitions
@@ -100,6 +101,7 @@ src/
    
    The application will be available at `http://localhost:5173`
    Replace the port number if different, this will be shown in the terminal after running the command.
+   Make sure your backend server is running and accessible so the frontend can communicate with it.
 
 ### Available Scripts
 

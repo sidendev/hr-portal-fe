@@ -131,9 +131,14 @@ The frontend communicates with a Scala Play Framework backend via RESTful APIs. 
 
 ## Backend Repository
 
-This frontend application requires the corresponding backend API to function properly. The backend is built with Scala Play Framework and provides RESTful endpoints for data management.
+This frontend application requires the corresponding backend API to function properly. The backend is built with Scala Play Framework and provides RESTful endpoints.
 
 For complete project details, backend setup instructions, and API documentation, please visit the backend repository:
 
 **[HR Portal Backend Repository]([<backend-repository-url>](https://github.com/sidendev/hr-portal))**
 
+## Further Improvements
+Potential enhancements for future development:
+- **Authentication & Authorization**: Implement user authentication
+- **Enhanced UI/UX**: Improve the user interface with additional features for contracts section
+- **Testing**: Add further selenium tests for end-to-end coverage
